@@ -121,7 +121,8 @@ function createPlaylistElement({ id, name, songs }) {
  */
 function createElement(tagName, children = [], classes = [], attributes = {}) {
     const element = document.createElement(tagName);
-    element.setAttribute("onclick", "playSong(id)");
+    
+
     for(let child of children){
         element.append(child);
     }
@@ -140,13 +141,6 @@ function createElement(tagName, children = [], classes = [], attributes = {}) {
 
 // You can write more code below this line
 
-
-
-
-
-
-
-
 // varibales and loops for defining the lists order
 // songs list
 const sortedSongs=player.songs.sort((a,b) => (a.title > b.title) ? 1 : ((b.title > a.title) ? -1 : 0))
@@ -155,7 +149,7 @@ for(let song of sortedSongs){
     songsdiv.append(createSongElement(song)); 
 
 }
-// playlist list
+// sort and adds to playlist list 
 const sortedPl=player.playlists.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
 for(let playlist of sortedPl){
     let playlistsdiv = document.getElementById("playlists");
