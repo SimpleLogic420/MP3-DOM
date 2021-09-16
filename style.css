@@ -27,11 +27,11 @@ h3{
 }
 #inputs{
     position: absolute;
-    left: 175px;
+    left: 335px;
 }
 #add-button{
     position: relative;
-    left: 167px;
+    left: 326px;
     top: 25px;
 }
 /* Class selectors */
@@ -43,8 +43,13 @@ h3{
 .song img{
     height: 100px;
 }
-.songBt{
+.play-button{
    float: right;
    position: relative;
-   top: 75px;
+   top: 80px;
 }
+.remove-button{
+    float: right;
+    position: relative;
+    top: 80px;
+ }
