@@ -11,21 +11,27 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&family=Roboto:wght@700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
     </head>
     <body>
         <h1>Awesome Player!!!</h1>
         <h3>素晴らしいプレーヤー。!!!</h3>
+        <hr>
+    <form>
         <div id="add-section">
             <h2>Add a new song</h2>
             <div id="inputs">
-                <input name="title" placeholder="Title">
-                <input name="album" placeholder="Album">
-                <input name="artist" placeholder="Artist">
-                <input name="duration" placeholder="Duration (mm:ss)">
-                <input name="cover-art" placeholder="Cover art link">
+                <input id="inputTitle" class="inputAdd" name="title" placeholder="Title" required>
+                <input id="inputAlbum" class="inputAdd" name="album" placeholder="Album" required>
+                <input id="inputArtist" class="inputAdd" name="artist" placeholder="Artist" required>
+                <input id="inputDuration" class="inputAdd" name="duration" placeholder="Duration (mm:ss)" required>
+                <input id="inputCover-art" class="inputAdd" name="cover-art" placeholder="Cover art link" required>
             </div>
             <button id="add-button">Add</button>
         </div>
+    </form>
         <div id="songs">
             <h2>Songs</h2>
             <div class="list">
@@ -48,6 +54,7 @@
                 </div> -->
             </div>
         </div>
+        <hr>
         <div id="playlists">
             <h2>Playlists</h2>
             <div class="list">

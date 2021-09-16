@@ -61,6 +61,8 @@ function removeSong(id) {
         const toRemove = document.getElementById(event.target.closest("div").id)
         console.log(event.currentTarget , event.target)
         toRemove.remove()
+        const toRemoveId = toRemove.id;
+        const playerSongId = parseInt(toRemoveId[toRemoveId.length-1]);
        
      }
 }
@@ -68,9 +70,47 @@ function removeSong(id) {
 /**
  * Adds a song to the player, and updates the DOM to match.
  */
+const addButton =document.getElementById("add-button");
+addButton.addEventListener("click",addSong);
 function addSong({ title, album, artist, duration, coverArt }) {
-    // Your code here
+  
+    let inputTitle =document.getElementById("inputTitle").value;
+    let inputAlbum =document.getElementById("inputAlbum").value;
+    let inputArtist =document.getElementById("inputArtist").value;
+    let inputDuration =document.getElementById("inputDuration").value;
+    let inputCoverArt =document.getElementById("inputCover-art").value;
+    let uniqueId= generateUniqueId();
+    let newSong={
+      id: uniqueId,
+      title: inputTitle,
+      album: inputAlbum,
+      artist: inputArtist,
+      duration: inputDuration
+    };
+    player.songs.push(newSong);
+    
+
+    let songToAdd = createSongElement(uniqueId,inputTitle,inputAlbum,inputArtist,inputDuration,inputCoverArt)
+    return songToAdd;
 }
+function generateUniqueId(){
+    let idSet= new Set();
+  for(let song of player.songs){
+    idSet.add(song.id);
+  }
+    let i=1;
+    while(true){
+      if(!idSet.has(i)){
+        break;
+      }
+      i++
+    }
+    id=i;
+    return id;
+}
+
+    
+        
 
 /**
  * Acts on a click event on an element inside the songs list.
@@ -115,7 +155,6 @@ function createSongElement({ id, title, album, artist, duration, coverArt }) {
     // create buttons
     const playbutton = createElement("button" , ["🎶"] , ["play-button"] , {onclick: "songHandle(event)"})
     const removebutton = createElement("button" , ["❌"] , ["remove-button"] , {onclick: "songHandle(event)"})
-     "songHandle(event)"
     // adding the buttons
     songReturn.append(removebutton);
     songReturn.append(playbutton);
@@ -159,17 +198,11 @@ function createElement(tagName, children = [], classes = [], attributes = {}, ev
     for(let attr in attributes){
         element.setAttribute(attr, attributes[attr]);
     }
+    
    
     return element;
 }
-function createButton(tagName, text , classes=[]){
-    const button = document.createElement(tagName);
-    button.innerText= text;
-    for(let name of classes){
-        button.classList.add(name);
-    }
-    return button;
-}
+
     
     
 
@@ -359,6 +392,8 @@ function durationConverter(dur){
 //     durli.textContent=durText;
 //     song.append(durli);
 //   }
+
+
 
 
 

@@ -5,16 +5,52 @@ body{
 h1{
     text-align: center;
     font-family: 'Roboto Condensed', sans-serif;
+    font-size: 50px;
+    text-shadow: 5px 5px #FFEDED;
+    margin-bottom: 10px;
+    
 }
 h2{
     text-align: center;
     font-family: 'Roboto Condensed', sans-serif;
     font-size: 48px;
     text-shadow: 5px 5px #FFEDED;
+    margin-top: 20px;
 }
 h3{
     text-align: center;
     font-family: 'M PLUS Rounded 1c', sans-serif;
+    margin: 0;
+    margin-bottom: 40px;
+}
+input{
+    border-radius: 5px;
+    border: 1px solid;
+}
+input:hover{
+    border: 2px solid #FFAA4C;
+}
+input:focus{
+    border: 3px solid #FFAA4C;
+    border-radius: 2px;
+}
+hr{
+    width: 20%;
+    border: dotted #BBBBBB 8px;
+    border-bottom: none;
+    margin: 100px auto;
+    opacity: 0.5;
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+li{
+    font-family: 'Ubuntu', sans-serif;
+}
+img{
+    position: relative;
+    left: 33px;
+    
+    
 }
 /* Id selectors */
 #songs{
@@ -23,7 +59,7 @@ h3{
     
 }
 #playlists{
-    background-color: #F6F5F5;
+    background-color: #F9F9F9;
 }
 #inputs{
     position: absolute;
@@ -53,3 +89,5 @@ h3{
     position: relative;
     top: 80px;
  }
+
+ /*  */

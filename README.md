@@ -14,11 +14,11 @@ Your task is to create a webpage that conveniently displays the songs and playli
 6. May the odds be ever in your favor!
 
 ## New Requirements!
-- There is now a section for adding new songs to the player. Make it work!
-- Add a play button to every song. Clicking it will play that song.
-- Add a remove button to every song. Clicking it will remove the song from the playlist.
-- There should be only one event listener on the entire songs list, that handles all play and remove events of songs.
-- You are given new template files to use: `index.new.html` and `index.new.js`.
+- There is now a section for adding new songs to the player. Make it work! []
+- Add a play button to every song. Clicking it will play that song.[x]
+- Add a remove button to every song. Clicking it will remove the song from the playlist.[x]
+- There should be only one event listener on the entire songs list, that handles all play and remove events of songs.[x]
+- You are given new template files to use: `index.new.html` and `index.new.js`.[x]
 
 ## Webpage Requirements
 
