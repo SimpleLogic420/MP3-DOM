@@ -72,26 +72,25 @@ function removeSong(id) {
  */
 const addButton =document.getElementById("add-button");
 addButton.addEventListener("click",addSong);
-function addSong({ title, album, artist, duration, coverArt }) {
-  
-    let inputTitle =document.getElementById("inputTitle").value;
-    let inputAlbum =document.getElementById("inputAlbum").value;
-    let inputArtist =document.getElementById("inputArtist").value;
-    let inputDuration =document.getElementById("inputDuration").value;
-    let inputCoverArt =document.getElementById("inputCover-art").value;
-    let uniqueId= generateUniqueId();
-    let newSong={
+function addSong(event) {
+    event.preventDefault();
+    const inputTitle =document.getElementById("inputTitle").value;
+    const inputAlbum =document.getElementById("inputAlbum").value;
+    const inputArtist =document.getElementById("inputArtist").value;
+    const inputDuration =document.getElementById("inputDuration").value;
+    const inputCoverArt =document.getElementById("inputCover-art").value;
+    const uniqueId= generateUniqueId();
+    const newSong={
       id: uniqueId,
       title: inputTitle,
       album: inputAlbum,
       artist: inputArtist,
-      duration: inputDuration
+      duration: inputDuration,
+      coverArt: inputCoverArt
     };
     player.songs.push(newSong);
-    
-
-    let songToAdd = createSongElement(uniqueId,inputTitle,inputAlbum,inputArtist,inputDuration,inputCoverArt)
-    return songToAdd;
+    const songToAdd = createSongElement(newSong);
+    songs.append(songToAdd);
 }
 function generateUniqueId(){
     let idSet= new Set();
