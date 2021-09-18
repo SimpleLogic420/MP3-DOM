@@ -1,3 +1,7 @@
+
+
+
+
 const player = {
     songs: [
         {
@@ -55,6 +59,14 @@ const player = {
             artist: "Wintersun",
             duration: 811,
             coverArt: "./images/cover_art/wintersun_sons_of_winter_and_stars.jpg",
+        },
+        {
+            id: 8,
+            title: "Mood Swings",
+            album: "Shoot for the Stars, Aim for the Moon",
+            artist: "Pop Smoke (ft Lil Tjay)",
+            duration: 213,
+            coverArt: "./images/cover_art/popsmoke.png",
         },
     ],
     playlists: [
