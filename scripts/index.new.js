@@ -29,7 +29,6 @@ function songHandle(event){
 
 /**
  * Removes a song from the player, and updates the DOM to match.
- *
  * @param {Number} songId - the ID of the song to remove
  */
 function removeSong(id) {
@@ -71,13 +70,13 @@ function removeSong(id) {
  * Adds a song to the player, and updates the DOM to match.
  */
 const addButton =document.getElementById("add-button");
-addButton.addEventListener("click",addSong);
+addButton.addEventListener("click",handleAddSongEvent);
 function addSong(event) {
     event.preventDefault();
     const inputTitle =document.getElementById("inputTitle").value;
     const inputAlbum =document.getElementById("inputAlbum").value;
     const inputArtist =document.getElementById("inputArtist").value;
-    const inputDuration =document.getElementById("inputDuration").value;
+    const inputDuration =convertMmssToNumber(document.getElementById("inputDuration").value);
     const inputCoverArt =document.getElementById("inputCover-art").value;
     const uniqueId= generateUniqueId();
     const newSong={
@@ -92,6 +91,11 @@ function addSong(event) {
     const songToAdd = createSongElement(newSong);
     songs.append(songToAdd);
 }
+// a function that take sthe duration input.value(string) , and turns it to lookalike number
+function convertMmssToNumber(duration){
+  return Number(duration.split(":")[0])*60 +Number(duration.split(":")[1])
+}
+// function that generates a new unique id for the added songs
 function generateUniqueId(){
     let idSet= new Set();
   for(let song of player.songs){
@@ -134,7 +138,7 @@ function generateUniqueId(){
  * @param {MouseEvent} event - the click event
  */
 function handleAddSongEvent(event) {
-    // Your code here
+    addSong(event);
 }
 
 /**
@@ -150,7 +154,6 @@ function createSongElement({ id, title, album, artist, duration, coverArt }) {
     const songReturn=createElement("div", children, classes, attrs,eventListeners);
     // style part
     songReturn.style.textAlign="center";
-    songReturn.style.border="2px dashed lightgrey";
     // create buttons
     const playbutton = createElement("button" , ["🎶"] , ["play-button"] , {onclick: "songHandle(event)"})
     const removebutton = createElement("button" , ["❌"] , ["remove-button"] , {onclick: "songHandle(event)"})
@@ -294,7 +297,7 @@ function createPlaylistElement({ id, name, songs }) {
     const children = plList({id:id ,name, songs: songs, duration: durationConverter(playlistDuration(id))});
     const classes = ["pl"]
     const attrs = { onclick: `playPlaylist(${id})`, id: "playlist" + id  }
-    let playlistReturn =createElement("div", children, classes, attrs)
+    const playlistReturn =createElement("div", children, classes, attrs)
     // style part
     playlistReturn.style.border="2px dashed lightgrey";
     playlistReturn.style.textAlign="center";
@@ -310,25 +313,6 @@ function createPlaylistElement({ id, name, songs }) {
 	@@ -41,7 +120,84 @@ function createPlaylistElement({ id, name, songs }) {
  * @param {Object} attributes - the attributes for the new element
  */
-// function createElement(tagName, children = [], classes = [], attributes = {}) {
-//     const element = document.createElement(tagName);
-
-
-//     for(let child of children){
-//         element.append(child);
-//     }
-//     for(let name of classes ){
-//         element.classList.add(name);
-//     }
-//     for(let attr in attributes){
-//         element.setAttribute(attr, attributes[attr]);
-//     }
-//     return element;
-
-
-
-// }
-
 
 // You can write more code below this line
 
@@ -361,8 +345,8 @@ function durationConverter(dur){
     let mmSs = mins_str + ":" + secs_str;
 
     return mmSs
-
   }
+  
   function playlistDuration(id) {
     // function that calculates the total duration of the playlist
       let songsId=[];
@@ -384,13 +368,6 @@ function durationConverter(dur){
     return totalDuration;
   }
 
-//   const song=document.querySelectorAll(".song")
-//   function addDur(song){
-//     let durText= song.durationConverter(duration);
-//     let durli=document.createElement("li");
-//     durli.textContent=durText;
-//     song.append(durli);
-//   }
 
 
 

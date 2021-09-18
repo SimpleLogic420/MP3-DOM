@@ -75,6 +75,8 @@ img{
     width: 50rem;
     margin: auto;
     margin-bottom: 10px;
+    border: 2px dashed lightgrey;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 .song img{
     height: 100px;
@@ -91,3 +93,4 @@ img{
  }
 
  /*  */
+ 
