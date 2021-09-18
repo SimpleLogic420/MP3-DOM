@@ -23,7 +23,7 @@ function songHandle(event){
         playSong(parseInt(songId[songId.length-1]))
     }
     if(event.target.className==="remove-button"){
-         confirmRemove(event);
+         removeSong(event);
     }
     if(event.target.className==="stop-button"){
       event.target.closest("div").style.borderLeft="1px solid grey";
@@ -32,10 +32,6 @@ function songHandle(event){
 // A function to handle events for the play button,stop button and the remove button
 function plHandle(event){
   
-  if(event.target.className === "play-buttonPl"){
-    
-    event.target.closest("div").style.borderLeft = '20px solid orange';
-  }
   if(event.target.className==="remove-buttonPl"){
     const toRemove = document.getElementById(event.target.closest("div").id)
     console.log(event.currentTarget , event.target)
@@ -44,9 +40,12 @@ function plHandle(event){
   if(event.target.className==="stop-buttonPl"){
     event.target.closest("div").style.borderLeft="1px solid grey";
   }
+  if(event.target.className === "play-buttonPl"){   
+    event.target.closest("div").style.borderLeft = '20px solid orange';
+  }
 }
 
-  function confirmRemove(event)
+  function removeSong(event)
  {
      const sure = confirm("Are you sure you want to delete this song ?")
      if (sure)
@@ -141,7 +140,7 @@ function handleAddSongEvent(event) {
 //creates and generates songs elements
 function createSongElement({ id, title, album, artist, duration, coverArt }) {
    
-    const children = songList({id : id , title : title , album:album , artist:artist,duration:durationConverter(duration) ,coverArt:coverArt});
+    const children = songList({id : id , title : title , album:album , artist:artist,duration:duration,coverArt:coverArt});
     const classes = ["song"]
     const attrs = {id: "song" + id }
     const eventListeners = {"click":songHandle}
@@ -195,28 +194,24 @@ function createElement(tagName, children = [], classes = [], attributes = {}, ev
     return element;
 }
 
-// a function i added to mark a played playlist.
-function playPlaylist(playlistId) {
-    for(let playlist of player.playlists) {
-        document.getElementById('playlist' + playlist.id).style.borderLeft = "2px solid grey";
-        if(playlist.id === playlistId) {
-            document.getElementById('playlist' + playlist.id).style.borderLeft = '20px solid orange';
-        }
-    }
-
-   
-}
-
-
-
 // creates a the content of each song element(used for the children of createSongElement)
  function songList(song) {
     const list = [];
     for(let key in song) {
         if(key !== "coverArt") {
+          if(key === "duration"){
+            // paints the duration li with the right color
+            g=getColor(song[key])
+            const li = document.createElement('li');
+            li.innerText = `${key}: ${durationConverter(song[key])}`;
+            li.style.color=`rgb(${255-g},${g},0)`;
+            list.push(li);
+          }
+          else{
             const li = document.createElement('li');
             li.innerText = `${key}: ${song[key]}`;
             list.push(li);
+          }
         } else {
             const img = document.createElement('img');
             img.src = song[key];
@@ -303,6 +298,23 @@ function durationConverter(dur){
     }
     return totalDuration;
   }
+  
+  // function to find the right rgb values based on the duration
+function getColor(d){
+    let g=0;
+    d=d/60;
+    if(d<=2){
+      g=255;
+    }else if(d>=7){
+      g=0;
+    }else{
+      g=(-51)*d+357
+    }
+    return g;
+    
+  }
+
+
 
 
 
