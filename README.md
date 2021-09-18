@@ -49,10 +49,10 @@ Every playlist list item should display the following information:
 
 ## Bonus Requirements
 
--   After a song begins to play, it automatically switches to the next one when the song duration has passed.
--   The color of the durations of songs should reflect their length. A duration of less than 2 min will show green, and will be gradually redder until it is completely red for durations that are above 7 min.
--   When a song is removed, all playlists in the page will also be updated.
--   When adding a new song, the songs list will remain sorted by title.
+-   After a song begins to play, it automatically switches to the next one when the song duration has passed.[]
+-   The color of the durations of songs should reflect their length. A duration of less than 2 min will show green, and will be gradually redder until it is completely red for durations that are above 7 min.[]
+-   When a song is removed, all playlists in the page will also be updated.[x]
+-   When adding a new song, the songs list will remain sorted by title.[x]
 -   Anything else you can think of...
 
 ## Technical Instructions

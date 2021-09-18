@@ -64,7 +64,7 @@ const player = {
             id: 8,
             title: "Mood Swings",
             album: "Shoot for the Stars, Aim for the Moon",
-            artist: "Pop Smoke",
+            artist: "Pop Smoke (ft Lil Tjay)",
             duration: 213,
             coverArt: "./images/cover_art/popsmoke.png",
         },

@@ -33,6 +33,7 @@ function songHandle(event){
 function plHandle(event){
   
   if(event.target.className === "play-buttonPl"){
+    
     event.target.closest("div").style.borderLeft = '20px solid orange';
   }
   if(event.target.className==="remove-buttonPl"){
@@ -50,28 +51,30 @@ function plHandle(event){
      const sure = confirm("Are you sure you want to delete this song ?")
      if (sure)
      {
+      //  removes the song from the page
         const toRemove = document.getElementById(event.target.closest("div").id)
-        console.log(event.currentTarget , event.target)
         toRemove.remove()
-        // from here is for the playlist.song list
-        // const to the div actuall id
-        const toRemoveId = toRemove.id;
-        // const to the id value of the song that was removed 
-        const playerSongId = parseInt(toRemoveId[toRemoveId.length-1]);
-        const playlists = document.getElementById("playlists");
-        let plList=[]
-        playlists.textContent=""
-        for(let i=0 ; i<player.playlists.length;i++){
-          if(playerSongId === player.playlists.songs[i]){
-            // removes from the player
-            player.playlists.songs.splice(i,1);
-          }    
-          for(let playlist of playlists){
-            plList.push(playlist);
+        toRemoveId=toRemove.id;
+        songToRemoveId=parseInt(toRemoveId[toRemoveId.length-1]);
+        for(let playlist of player.playlists){
+          for(let i= 0 ; i <playlist.songs.length ;i++){
+            if(songToRemoveId===playlist.songs[i]){
+              playlist.songs.splice(i,1);
+            }
           }
         }
-        playlists.append(plList);
-      }
+        // removes the song from the playlists and updates them
+
+        const playlistElement = document.getElementById("playlists");
+        playlistElement.textContent="";
+        for(let playlist of player.playlists){
+          let plToAdd=createPlaylistElement(playlist);
+          playlistElement.append(plToAdd);
+        }
+        
+        
+
+    }
   }
  
 
@@ -124,28 +127,10 @@ function generateUniqueId(){
     
         
 
-/**
- * Acts on a click event on an element inside the songs list.
- * Should handle clicks on play buttons and remove buttons of songs.
- *
- * @param {MouseEvent} event - the click event
- */
-// function handleSongClickEvent(event) {
-//     let songId=event.currentTarget.id;
 
-//     if(event.target.className === "playButton"){
-//         playSong(songId[songId.length-1])
-//     }
-//     if(event.target.className==="removeButton"){
-//         confirmRemove(songId[songId.length-1]);
-//     }
-// }
 
-/**
- * Handles a click event on the button that adds songs.
- *
- * @param {MouseEvent} event - the click event
- */
+//  * Handles a click event on the button that adds songs.
+ 
 function handleAddSongEvent(event) {
     addSong(event);
 }
@@ -153,7 +138,7 @@ function handleAddSongEvent(event) {
 /**
  * Creates a song DOM element based on a song object.
  */
-
+//creates and generates songs elements
 function createSongElement({ id, title, album, artist, duration, coverArt }) {
    
     const children = songList({id : id , title : title , album:album , artist:artist,duration:durationConverter(duration) ,coverArt:coverArt});
@@ -174,22 +159,25 @@ function createSongElement({ id, title, album, artist, duration, coverArt }) {
     // end of style part
     return songReturn;
 }
+// creates and generates playlists elements
+function createPlaylistElement({ id, name, songs }) {
+  const playlist = arguments[0];
+  const children = plList({id:id ,name, songs: songs, duration: durationConverter(playlistDuration(id))});
+  const classes = ["pl"]
+  const attrs = { id: "playlist" + id  }
+  const playlistReturn =createElement("div", children, classes, attrs)
+  const playbutton = createElement("button" , ["🎶"] , ["play-buttonPl"] , {onclick: "plHandle(event)"})
+  const removebutton = createElement("button" , ["❌"] , ["remove-buttonPl"] , {onclick: "plHandle(event)"})
+  const stopbutton = createElement("button" , ["⛔"] , ["stop-buttonPl"] , {onclick: "plHandle(event)"})
+  // adding the buttons
+  playlistReturn.append(removebutton);
+  playlistReturn.append(stopbutton);
+  playlistReturn.append(playbutton);
+  return playlistReturn;
+  
+}
 
-
-
-/**
- * Creates a new DOM element.
- *
- * Example usage:
- * createElement("div", ["just text", createElement(...)], ["nana", "banana"], {id: "bla"}, {click: (...) => {...}})
- *
- * @param {String} tagName - the type of the element
- * @param {Array} children - the child elements for the new element.
- *                           Each child can be a DOM element, or a string (if you just want a text element).
- * @param {Array} classes - the class list of the new element
- * @param {Object} attributes - the attributes for the new element
- * @param {Object} eventListeners - the event listeners on the element
- */
+// generic function to create elements
 function createElement(tagName, children = [], classes = [], attributes = {}, eventListeners = {}) {
     const element = document.createElement(tagName);
 
@@ -207,34 +195,6 @@ function createElement(tagName, children = [], classes = [], attributes = {}, ev
     return element;
 }
 
-    
-    
-
-/**
- * Inserts all songs in the player as DOM elements into the songs list.
- */
-function generateSongs() {
-    // Your code here
-}
-
-/**
- * Inserts all playlists in the player as DOM elements into the playlists list.
- */
-function generatePlaylists() {
-   
-}
-
-// Creating the page structure
-generateSongs()
-generatePlaylists()
-
-// Making the add-song-button actually do something
-document.getElementById("add-button").addEventListener("click", handleAddSongEvent)
-
-
-
-
-
 // a function i added to mark a played playlist.
 function playPlaylist(playlistId) {
     for(let playlist of player.playlists) {
@@ -244,14 +204,12 @@ function playPlaylist(playlistId) {
         }
     }
 
-   // Your code here
+   
 }
 
 
-/**
- * Creates a song DOM element based on a song object.
-*/
 
+// creates a the content of each song element(used for the children of createSongElement)
  function songList(song) {
     const list = [];
     for(let key in song) {
@@ -273,9 +231,7 @@ function playPlaylist(playlistId) {
 
 
 
-/**
- * Creates a playlist DOM element based on a playlist object.
- */
+// creates a the content of each playlist element(used for the children of createPlaylistElement)
  function plList(playlist) {
     const playlistList = [];
     for(let key in playlist) {
@@ -293,31 +249,6 @@ function playPlaylist(playlistId) {
 
     return playlistList;
 }
-
-function createPlaylistElement({ id, name, songs }) {
-    const playlist = arguments[0];
-    const children = plList({id:id ,name, songs: songs, duration: durationConverter(playlistDuration(id))});
-    const classes = ["pl"]
-    const attrs = { id: "playlist" + id  }
-    const playlistReturn =createElement("div", children, classes, attrs)
-    const playbutton = createElement("button" , ["🎶"] , ["play-buttonPl"] , {onclick: "plHandle(event)"})
-    const removebutton = createElement("button" , ["❌"] , ["remove-buttonPl"] , {onclick: "plHandle(event)"})
-    const stopbutton = createElement("button" , ["⛔"] , ["stop-buttonPl"] , {onclick: "plHandle(event)"})
-    // adding the buttons
-    playlistReturn.append(removebutton);
-    playlistReturn.append(stopbutton);
-    playlistReturn.append(playbutton);
-    return playlistReturn;
-    
-}
-
-
-/**
- * Creates a new DOM element.
- *
-	@@ -41,7 +120,84 @@ function createPlaylistElement({ id, name, songs }) {
- * @param {Object} attributes - the attributes for the new element
- */
 
 // You can write more code below this line
 
