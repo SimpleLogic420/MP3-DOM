@@ -15,7 +15,7 @@ function playSong(songId) {
         }
     }
 }
-// A function to handle events for the play button and the remove button
+// A function to handle events for the play button,stop button and the remove button
 function songHandle(event){
     let songId=event.target.closest("div").id;
     
@@ -25,33 +25,26 @@ function songHandle(event){
     if(event.target.className==="remove-button"){
          confirmRemove(event);
     }
+    if(event.target.className==="stop-button"){
+      event.target.closest("div").style.borderLeft="1px solid grey";
+    }
+}
+// A function to handle events for the play button,stop button and the remove button
+function plHandle(event){
+  
+  if(event.target.className === "play-buttonPl"){
+    event.target.closest("div").style.borderLeft = '20px solid orange';
+  }
+  if(event.target.className==="remove-buttonPl"){
+    const toRemove = document.getElementById(event.target.closest("div").id)
+    console.log(event.currentTarget , event.target)
+    toRemove.remove()
+  }
+  if(event.target.className==="stop-buttonPl"){
+    event.target.closest("div").style.borderLeft="1px solid grey";
+  }
 }
 
-/**
- * Removes a song from the player, and updates the DOM to match.
- * @param {Number} songId - the ID of the song to remove
- */
-function removeSong(id) {
-    // removes the chosen song from the songs list
-    let found=false;
-    for(let i=0 ; i<player.songs.length ; i++){
-      if(player.songs[i].id===id){
-        found=true;
-        player.songs.splice(i,1);
-      }
-    }
-    if(!found){
-      throw("non-existent ID");
-    }
-    // removes the song from all playlist it appears in
-    for(let playlist of player.playlists){
-      for(let i=0 ; i<playlist.songs.length ; i++){
-        if(playlist.songs[i]===id){
-          playlist.songs.splice(i,1);
-        }
-      }
-    }
-  }
   function confirmRemove(event)
  {
      const sure = confirm("Are you sure you want to delete this song ?")
@@ -60,11 +53,27 @@ function removeSong(id) {
         const toRemove = document.getElementById(event.target.closest("div").id)
         console.log(event.currentTarget , event.target)
         toRemove.remove()
+        // from here is for the playlist.song list
+        // const to the div actuall id
         const toRemoveId = toRemove.id;
+        // const to the id value of the song that was removed 
         const playerSongId = parseInt(toRemoveId[toRemoveId.length-1]);
-       
-     }
-}
+        const playlists = document.getElementById("playlists");
+        let plList=[]
+        playlists.textContent=""
+        for(let i=0 ; i<player.playlists.length;i++){
+          if(playerSongId === player.playlists.songs[i]){
+            // removes from the player
+            player.playlists.songs.splice(i,1);
+          }    
+          for(let playlist of playlists){
+            plList.push(playlist);
+          }
+        }
+        playlists.append(plList);
+      }
+  }
+ 
 
 /**
  * Adds a song to the player, and updates the DOM to match.
@@ -157,23 +166,16 @@ function createSongElement({ id, title, album, artist, duration, coverArt }) {
     // create buttons
     const playbutton = createElement("button" , ["🎶"] , ["play-button"] , {onclick: "songHandle(event)"})
     const removebutton = createElement("button" , ["❌"] , ["remove-button"] , {onclick: "songHandle(event)"})
+    const stopbutton = createElement("button" , ["⛔"] , ["stop-button"] , {onclick: "songHandle(event)"})
     // adding the buttons
     songReturn.append(removebutton);
+    songReturn.append(stopbutton);
     songReturn.append(playbutton);
     // end of style part
     return songReturn;
 }
 
-/**
- * Creates a playlist DOM element based on a playlist object.
- */
-function createPlaylistElement({ id, name, songs }) {
-    const children = []
-    const classes = []
-    const attrs = {}
-    const eventListeners = {}
-    return createElement("div", children, classes, attrs, eventListeners)
-}
+
 
 /**
  * Creates a new DOM element.
@@ -236,7 +238,7 @@ document.getElementById("add-button").addEventListener("click", handleAddSongEve
 // a function i added to mark a played playlist.
 function playPlaylist(playlistId) {
     for(let playlist of player.playlists) {
-        document.getElementById('playlist' + playlist.id).style.borderLeft = "5px solid grey";
+        document.getElementById('playlist' + playlist.id).style.borderLeft = "2px solid grey";
         if(playlist.id === playlistId) {
             document.getElementById('playlist' + playlist.id).style.borderLeft = '20px solid orange';
         }
@@ -296,14 +298,17 @@ function createPlaylistElement({ id, name, songs }) {
     const playlist = arguments[0];
     const children = plList({id:id ,name, songs: songs, duration: durationConverter(playlistDuration(id))});
     const classes = ["pl"]
-    const attrs = { onclick: `playPlaylist(${id})`, id: "playlist" + id  }
+    const attrs = { id: "playlist" + id  }
     const playlistReturn =createElement("div", children, classes, attrs)
-    // style part
-    playlistReturn.style.border="2px dashed lightgrey";
-    playlistReturn.style.textAlign="center";
-    // end of style part
-
+    const playbutton = createElement("button" , ["🎶"] , ["play-buttonPl"] , {onclick: "plHandle(event)"})
+    const removebutton = createElement("button" , ["❌"] , ["remove-buttonPl"] , {onclick: "plHandle(event)"})
+    const stopbutton = createElement("button" , ["⛔"] , ["stop-buttonPl"] , {onclick: "plHandle(event)"})
+    // adding the buttons
+    playlistReturn.append(removebutton);
+    playlistReturn.append(stopbutton);
+    playlistReturn.append(playbutton);
     return playlistReturn;
+    
 }
 
 
